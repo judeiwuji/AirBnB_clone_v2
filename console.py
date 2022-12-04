@@ -139,11 +139,13 @@ class HBNBCommand(cmd.Cmd):
                 temp = value
                 try:
                     value = int(value)
+                    value = value if str(value) == temp else temp
                 except ValueError:
                     value = temp
                 if type(value) is str:
                     try:
                         value = float(value)
+                        value = value if str(value) == temp else temp
                     except ValueError:
                         value = temp
                 kwargs[key] = value
