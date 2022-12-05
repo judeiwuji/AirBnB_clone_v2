@@ -17,17 +17,17 @@ place_amenity = Table("place_amenity", Base.metadata,
 class Place(BaseModel, Base):
     """This is the class for Place
     Attributes:
-        city_id: city id
-        user_id: user id
-        name: name input
-        description: string of description
-        number_rooms: number of room in int
-        number_bathrooms: number of bathrooms in int
-        max_guest: maximum guest in int
-        price_by_night:: pice for a staying in int
-        latitude: latitude in flaot
-        longitude: longitude in float
-        amenity_ids: list of Amenity ids
+        city_id(string): city id
+        user_id(string): user id
+        name(string): name input
+        description(string): string of description
+        number_rooms(int): number of room in int
+        number_bathrooms(int): number of bathrooms
+        max_guest(int): maximum guest
+        price_by_night(int): pice for a staying
+        latitude(float): location latitude
+        longitude(float): location longitude
+        amenity_ids(list): list of Amenity ids
     """
     __tablename__ = "places"
     city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
