@@ -9,7 +9,7 @@ class DBStorage:
     """DBStorage - provides an interface between the DB and APP"""
 
     __engine = None
-    __session= None
+    __session = None
 
     def __init__(self):
         """Creates DBStorage instance"""
@@ -18,7 +18,7 @@ class DBStorage:
         DB_HOST = getenv('HBNB_MYSQL_HOST')
         DB_NAME = getenv('HBNB_MYSQL_DB')
         DB_URL = "mysql+mysqldb://{}:{}@{}/{}".\
-                                      format(DB_USER, DB_PASS, DB_HOST, DB_NAME)
+                 format(DB_USER, DB_PASS, DB_HOST, DB_NAME)
 
         self.__engine = create_engine(DB_URL, pool_pre_ping=True)
         if getenv('HBNB_ENV') == 'test':
@@ -36,14 +36,14 @@ class DBStorage:
         else:
             from models.city import City
             from models.state import State
-            # from models.amenity import Amenity
-            # from models.place import Place
-            # from models.review import Review
-            # from models.user import User
-            entities = [ State, City] # Amenity, Place, Review, User]
+            from models.amenity import Amenity
+            from models.place import Place
+            from models.review import Review
+            from models.user import User
+            entities = [State, City]  # Amenity, Place, Review, User]
 
             for entity in entities:
-                data[len(data):] = self.__session(entity).all()
+                data[len(data):] = self.__session.query(entity).all()
         for obj in data:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
             objects[key] = obj
@@ -70,6 +70,7 @@ class DBStorage:
         from models.city import City
 
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
