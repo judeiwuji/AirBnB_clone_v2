@@ -47,29 +47,27 @@ class Place(BaseModel, Base):
     amenity_ids = []
     user = relationship("User", back_populates="places")
     cities = relationship('City', back_populates="places")
-    # if getenv("HBNB_TYPE_STORAGE") == "db":
-    #     reviews = relationship("Review", cascade='all, delete, delete-orphan',
-    #                            backref="place")
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        reviews = relationship("Review", cascade='all, delete, delete-orphan',
+                               back_populates="place")
 
-    #     amenities = relationship("Amenity", secondary=place_amenity,
-    #                              viewonly=False,
-    #                              back_populates="place_amenities")
-    # else:
-    #     @property
-    #     def reviews(self):
-    #         """ Returns list of reviews.id """
-    #         var = models.storage.all()
-    #         lista = []
-    #         result = []
-    #         for key in var:
-    #             review = key.replace('.', ' ')
-    #             review = shlex.split(review)
-    #             if (review[0] == 'Review'):
-    #                 lista.append(var[key])
-    #         for elem in lista:
-    #             if (elem.place_id == self.id):
-    #                 result.append(elem)
-    #         return (result)
+        # amenities = relationship("Amenity", secondary=place_amenity,
+        #                          viewonly=False,
+        #                          back_populates="place_amenities")
+    else:
+        @property
+        def reviews(self):
+            """ Returns list of reviews """
+            from models import storage
+            from models.review import Review
+
+            all_reviews = storage.all(Review)
+            reviews = []
+
+            for review in all_reviews.values():
+                if review.place_id == self.id:
+                    reviews.append(review)
+            return reviews
 
     #     @property
     #     def amenities(self):
