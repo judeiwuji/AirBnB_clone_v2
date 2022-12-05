@@ -22,7 +22,7 @@ class DBStorage:
 
         self.__engine = create_engine(DB_URL, pool_pre_ping=True)
         if getenv('HBNB_ENV') == 'test':
-            pass
+            self.__destroy_test_db()
 
     def all(self, cls=None):
         """query on the current database session
@@ -40,8 +40,7 @@ class DBStorage:
             from models.place import Place
             from models.review import Review
             from models.user import User
-            entities = [State, City, User, Place, Review]
-            # Amenity]
+            entities = [State, City, User, Place, Review, Amenity]
 
             for entity in entities:
                 data[len(data):] = self.__session.query(entity).all()
@@ -70,12 +69,23 @@ class DBStorage:
         from models.state import State
         from models.city import City
         from models.user import User
-        from models.place import Place
         from models.review import Review
-        # from models.amenity import Amenity
+        from models.place import Place
+        from models.amenity import Amenity
 
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def __destroy_test_db(self):
+        """Destroys all tables in test environment"""
+        self.__engine.execute("DROP TABLE IF EXISTS `place_amenity`;\
+                               DROP TABLE IF EXISTS `reviews`;\
+                               DROP TABLE IF EXISTS `places`;\
+                               DROP TABLE IF EXISTS `cities`;\
+                               DROP TABLE IF EXISTS `states`;\
+                               DROP TABLE IF EXISTS `amenities`;\
+                               DROP TABLE IF EXISTS `users`;\
+                              ")
