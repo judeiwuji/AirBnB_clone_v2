@@ -40,8 +40,7 @@ class DBStorage:
             from models.place import Place
             from models.review import Review
             from models.user import User
-            entities = [State, City, User, Place, Review]
-            # Amenity]
+            entities = [State, City, User, Place, Review, Amenity]
 
             for entity in entities:
                 data[len(data):] = self.__session.query(entity).all()
@@ -70,9 +69,9 @@ class DBStorage:
         from models.state import State
         from models.city import City
         from models.user import User
-        from models.place import Place
         from models.review import Review
-        # from models.amenity import Amenity
+        from models.place import Place
+        from models.amenity import Amenity
 
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
