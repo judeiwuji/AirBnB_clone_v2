@@ -91,8 +91,8 @@ class TestHBNBCommandDoCreate(unittest.TestCase):
             self.assertEqual(obj.number_bathrooms, 2)
             self.assertEqual(obj.max_guest, 10)
             self.assertEqual(obj.price_by_night, 300)
-            self.assertEqual(obj.latitude, 37.773972)
-            self.assertEqual(obj.longitude, -122.431297)
+            self.assertAlmostEqual(obj.latitude, 37.773972, 2)
+            self.assertAlmostEqual(obj.longitude, -122.431297, 2)
 
     def test_create_review(self):
         """Test create review"""

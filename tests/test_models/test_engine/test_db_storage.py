@@ -73,9 +73,10 @@ class TestDBStorage(unittest.TestCase):
         new = State(name="Abuja")
         new.save()
         _id = new.to_dict()['id']
-        for key in storage.all().keys():
-            temp = key
-        self.assertEqual(temp, 'State' + '.' + _id)
+        for key, value in storage.all(State).items():
+            temp_key = key
+            temp_value = value
+        self.assertEqual(temp_key, 'State' + '.' + temp_value.id)
 
     def test_storage_var_created(self):
         """ DBStorage object storage created """
