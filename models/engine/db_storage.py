@@ -9,7 +9,7 @@ class DBStorage:
     """DBStorage - provides an interface between the DB and APP"""
 
     __engine = None
-    __session = None
+    __session: scoped_session = None
 
     def __init__(self):
         """Creates DBStorage instance"""
@@ -32,7 +32,7 @@ class DBStorage:
         objects = {}
         data = []
         if cls is not None:
-            data = self.__session(cls).all()
+            data = self.__session.query(cls).all()
         else:
             from models.city import City
             from models.state import State
