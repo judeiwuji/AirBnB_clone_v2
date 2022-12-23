@@ -63,6 +63,7 @@ def do_deploy(archive_path):
     result = sudo("ln -s {} /data/web_static/current".format(deploy_path))
     return True
 
+
 def deploy():
     """Full deployment"""
     target = do_pack()
