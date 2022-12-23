@@ -5,7 +5,6 @@ from datetime import datetime
 from os.path import exists
 from os import mkdir
 
-
 env.hosts = ['18.210.15.214', '54.237.76.221']
 env.user = 'ubuntu'
 
@@ -24,6 +23,7 @@ def do_pack():
     if not exists('versions'):
         mkdir('versions')
     local("tar -zcvf {} web_static".format(target))
+    return target
 
 
 def do_deploy(archive_path):
@@ -62,3 +62,10 @@ def do_deploy(archive_path):
         return False
     result = sudo("ln -s {} /data/web_static/current".format(deploy_path))
     return True
+
+def deploy():
+    """Full deployment"""
+    target = do_pack()
+    if not exists(target):
+        return False
+    return do_deploy(target)
