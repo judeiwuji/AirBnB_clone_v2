@@ -25,7 +25,7 @@ def states(id=""):
             if d.id == id:
                 state = d
                 break
-        if type(state) is not None:
+        if state != None:
             state.cities = sorted(state.cities, key=lambda d: d.name)
         return render_template("9-states.html", state=state)
     return render_template("9-states.html", states=states)
