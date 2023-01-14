@@ -64,3 +64,7 @@ class FileStorage:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
             if self.__objects.get(key, None) is not None:
                 del self.__objects[key]
+
+    def close(self):
+        """reloads the file storage data"""
+        self.reload()
