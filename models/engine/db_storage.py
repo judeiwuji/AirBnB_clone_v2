@@ -9,7 +9,8 @@ class DBStorage:
     """DBStorage - provides an interface between the DB and APP"""
 
     __engine = None
-    __session: scoped_session = None
+    __session = None
+    Session = None
 
     def __init__(self):
         """Creates DBStorage instance"""
@@ -77,9 +78,10 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
-        Session = scoped_session(session_factory)
-        self.__session = Session()
+        self.Session = scoped_session(session_factory)
+        self.__session = self.Session()
 
     def close(self):
         """closes db connection"""
-        self.__session.close()
+        self.Session.remove()
+        self.__session = self.Session()
