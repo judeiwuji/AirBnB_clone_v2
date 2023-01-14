@@ -4,6 +4,7 @@ from flask import Flask
 from flask import render_template
 from models import storage
 from models.state import State
+from models.amenity import Amenity
 app = Flask(__name__)
 
 
@@ -13,22 +14,16 @@ def teardown_db(exception):
     storage.close()
 
 
-@app.route("/states", strict_slashes=False)
-@app.route("/states/<string:id>", strict_slashes=False)
+@app.route("/hbnb_filters", strict_slashes=False)
 def states(id=""):
     """Return all states formatted in HTML"""
     states = storage.all(State).values()
+    amenities = storage.all(Amenity).values()
     states = sorted(states, key=lambda d: d.name)
-    if id != "":
-        state = None
-        for d in states:
-            if d.id == id:
-                state = d
-                break
-        if state is not None:
-            state.cities = sorted(state.cities, key=lambda d: d.name)
-        return render_template("9-states.html", state=state)
-    return render_template("9-states.html", states=states)
+    amenities = sorted(amenities, key=lambda d: d.name)
+
+    return render_template("0-hbnb_filters.html", states=states,
+                           amenities=amenities)
 
 
 if __name__ == "__main__":
