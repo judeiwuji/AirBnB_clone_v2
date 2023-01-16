@@ -1,4 +1,5 @@
 footer {
+<<<<<<< HEAD
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -8,4 +9,14 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+=======
+	position: fixed;
+	bottom: 0;
+	background-color: white;
+	height: 60px;
+	width: 100%;
+	text-align: center;
+	line-height: 30px;
+	border-top: 1px solid #CCCCCC;
+>>>>>>> 9a67ad8a3a4b94b60e6d58559d249a80de23231f
 }
